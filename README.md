@@ -10,11 +10,11 @@ Version originally used Pycharm on Windows, however if system requirements are d
 
 Clone the repo using:
 
-gh repo clone jamiebird119/web_scrape
+$ gh repo clone jamiebird119/web_scrape
 
 Install dependencies using pip. In the case of pycharm CLI command is as follows but depends on it being windows and on pycharm IDE.
 
-py -m pip install -r requirements.txt
+$ py -m pip install -r requirements.txt
 
 Ensure that the correct version of chromedriver is used for the corresponding version of chrome on windows. To check version click 3 dots in top right 
 go to Help > About Google Chrome. It will show you the version and then go to https://chromedriver.chromium.org/downloads and get the version for your operating system.
@@ -24,7 +24,7 @@ Any urls for searches from rawpixel.com can then be added to urls.csv on a new r
 
 Run programme using on Pycharm using:
 
-py -m run.py
+$ py -m run.py
 
 New browser window should open, be scrapped in the background and then close. Do not close window or programme with stop. 
 
