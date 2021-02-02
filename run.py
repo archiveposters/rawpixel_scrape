@@ -3,21 +3,25 @@ import csv
 
 
 def scrape(url):
-    # webdriver must match current version of chrome on correct OS from https://chromedriver.chromium.org/downloads
+    # webdriver must match current version of chrome on correct OS from https://chromedriver.chromium.org/downloads and make sure the correct path is used to the version on user machine
     driver = webdriver.Chrome(r"C:\Users\J\Documents\GitHub\selenium_base\chromedriver.exe")
     # load page
     driver.get(url)
 
 
     info = []
+    # find all figure elements
     elements = driver.find_elements_by_xpath("//figure")
     print(len(elements))
     element = 1
+    
     while element <= (len(elements)+1):
+        # return title and link for each 
         xpath_title = f"//figure[{int(element)}]/div/img"
         xpath_link = f"//figure[{int(element)}]/div/a[2]"
-        # finds all teaser image figures on the page
+        
         try:
+            # ignore if they dont contain img and link
             title = driver.find_element_by_xpath(xpath_title).get_attribute('alt')
             link = driver.find_element_by_xpath(xpath_link).get_attribute('href')
             print(title)
@@ -25,16 +29,8 @@ def scrape(url):
             info.append([title, link])
             element += 1
         except Exception as e:
-            print(e)
-            element += 1
-    # for each teaser image figure get title and url
-    #for element in title_elements:
-    #    titles.append(element.get_attribute('alt'))
-    #for link in link_elements:
-    #    url_list.append(link.get_attribute('href'))
 
-    # zips titles and urls
-    #info = zip(titles, url_list)
+            element += 1
 
     driver.close()
     # append to info.csv
