@@ -16,7 +16,7 @@ def set_chrome_options():
     chrome_prefs["profile.default_content_settings"] = {"images": 2}
     return chrome_options
 
-def scrape(url):
+def scrape(url, fd, writer):
     driver = webdriver.Chrome(options=set_chrome_options())
     # load page
     driver.get(url)
@@ -47,23 +47,16 @@ def scrape(url):
 
     driver.close()
     # append to info.csv
-    with open("./data/info.csv", mode="a") as fd:
+    for item in info:
+        writer.writerow({"title": item[0], "url": item[1]})
+
+
+with open('./data/urls.txt', mode='r') as csv_file:
+    urls = csv_file.readlines()
+    
+    with open("./data/info.csv", mode="w") as fd:
         fieldnames = ["title", "url"]
         writer = csv.DictWriter(fd, fieldnames=fieldnames)
         writer.writeheader()
-        for item in info:
-            writer.writerow({"title": item[0], "url": item[1]})
-
-
-with open('./data/urls.csv', mode='r') as csv_file:
-    # reads csv file for urls in first column
-    csv_reader = csv.DictReader(csv_file)
-    row_count = 0
-    urls = []
-    for row in csv_reader:
-        # writes url to new line of info.csv
-        with open('./data/info.csv', mode='a') as new_file:
-            fieldnames = ["url"]
-            writer = csv.DictWriter(new_file,fieldnames=fieldnames)
-            writer.writerow({"url": row['url']})
-        scrape(row['url'])
+        for url in urls:
+            scrape(url, fd, writer)
